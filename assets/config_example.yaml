@@ -1,0 +1,22 @@
+# Use single quotes for regex.
+# \? is a litteral "\?" used by `regex.compile` not an escaped "?" or a special charater.
+
+punctuation:
+
+    rule_1:
+        from: '\?+'
+        to: '?'
+
+    rule_2:
+        from: '(?<=[^ ])\('
+        to: ' ('
+
+    rule_3:
+        from: '\( '
+        to: '('
+
+numbers:
+
+    rule_1:
+        from: '(?<=\d)\.(?=\d)'
+        to: ','

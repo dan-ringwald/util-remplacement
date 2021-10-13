@@ -1,5 +1,6 @@
 import re
 import yaml
+from .utils import load_yaml
 
 class ReplacementMap:
     """
@@ -7,11 +8,10 @@ class ReplacementMap:
     Can apply them to a text.
     """
 
-    def __init__(self, yaml_file):
-        with open(yaml_file, 'r') as stream:
-            config = yaml.safe_load(stream)
+    def __init__(self, yaml_file=None):
         self.map = []
-        self._add_replacement_rules(config)
+        if yaml_file is not None:
+            self.add_yaml_file(yaml_file)
 
     def _add_replacement_rules(self, replacement_dict):
         """
@@ -24,6 +24,13 @@ class ReplacementMap:
         else:
             for k in keys:
                 self._add_replacement_rules(replacement_dict[k])
+
+    def add_yaml_file(self, yaml_file):
+        """
+        Appends a list of replacements from a yaml file to the replacement map
+        """
+        config = load_yaml(yaml_file)
+        self._add_replacement_rules(config)
 
     def process_text(self, text, normalize_spaces=True):
         """
